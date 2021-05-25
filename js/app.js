@@ -79,6 +79,39 @@ function startRecording() {
 
 		recorder.onComplete = function(recorder, blob) { 
 			__log("Encoding complete");
+
+			var formData = new FormData();
+  			formData.append('audio', blob);
+  			// Use `jQuery.ajax` method
+  			$.ajax('upload.php', {
+  			  method: "POST",
+  			  data: formData,
+  			  processData: false,
+  			  contentType: false,
+  			  success: function (response) {
+  			  },
+  			  error: function () {
+  			  }
+  			});
+
+			// var fd = new FormData();
+        	// fd.append('fname', 'test.wav');
+        	// fd.append('data', blob);
+        	// $.ajax({
+        	//     type: 'POST',
+        	//     url: 'upload.php',
+        	//     data: fd,
+        	//     processData: false,
+        	//     contentType: false,
+			// 	success: function(response){
+			// 		console.log(response)
+			// 	},
+			// 	error: function(error){
+			// 		console.log("Error in connection: " + error)
+			// 	}
+        	// }).done(function(data) {
+        	//     console.log(data);
+        	// });
 			createDownloadLink(blob,recorder.encoding);
 			encodingTypeSelect.disabled = false;
 		}
